@@ -1,3 +1,4 @@
+<?php
 class Order {
     private $db_name;
 
@@ -67,3 +68,4 @@ class Order {
         return in_array(strtolower($payment_type), ['cash', 'credit', 'debit']);
     }
 }
+?>

@@ -85,3 +85,4 @@ final class FuelQuoteTest extends TestCase
         $this->assertEquals(1, $num_quotes);
     }
 }
+?>

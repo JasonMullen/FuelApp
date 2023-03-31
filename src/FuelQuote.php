@@ -1,3 +1,4 @@
+<?php
 class FuelQuote {
     public $db_name;
 
@@ -71,3 +72,4 @@ class FuelQuote {
         return preg_match($address_pattern, $address);
     }
 }
+?>

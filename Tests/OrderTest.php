@@ -15,6 +15,10 @@ class OrderTest extends TestCase {
         unset($this->order);
         @unlink('test_orders.db');
     }
+    
+    /**
+     * @covers Order::is_valid_fuel_type
+     */
 
     public function testValidFuelType() {
         $this->assertTrue($this->order->is_valid_fuel_type('leaded'));
@@ -22,27 +26,35 @@ class OrderTest extends TestCase {
         $this->assertTrue($this->order->is_valid_fuel_type('diesel'));
         $this->assertFalse($this->order->is_valid_fuel_type('invalid_fuel_type'));
     }
-
+      /**
+     * @covers Order::is_valid_gallons
+     */
     public function testValidGallons() {
         $this->assertTrue($this->order->is_valid_gallons(10.5));
         $this->assertTrue($this->order->is_valid_gallons('5.5'));
         $this->assertFalse($this->order->is_valid_gallons(-5));
         $this->assertFalse($this->order->is_valid_gallons('abc'));
     }
-
+        /**
+     * @covers Order::is_valid_name
+     */
     public function testValidName() {
         $this->assertTrue($this->order->is_valid_name('John Doe'));
         $this->assertTrue($this->order->is_valid_name('John-Doe'));
         $this->assertFalse($this->order->is_valid_name('John Doe123'));
         $this->assertFalse($this->order->is_valid_name('John_Doe'));
     }
-
+     /**
+     * @covers Order::is_valid_email
+     */
     public function testValidEmail() {
         $this->assertTrue($this->order->is_valid_email('test@example.com'));
         $this->assertFalse($this->order->is_valid_email('test@example'));
         $this->assertFalse($this->order->is_valid_email('test@.com'));
     }
-
+      /**
+     * @covers Order::is_valid_phone
+     */
     public function testValidPhone() {
         $this->assertTrue($this->order->is_valid_phone('+1234567890'));
         $this->assertTrue($this->order->is_valid_phone('1234567890'));
@@ -50,14 +62,19 @@ class OrderTest extends TestCase {
         $this->assertFalse($this->order->is_valid_phone('12345678901'));
         $this->assertFalse($this->order->is_valid_phone('123-456-7890'));
     }
-
+     /**
+     * @covers Order::is_valid_payment_type
+     */
     public function testValidPaymentType() {
         $this->assertTrue($this->order->is_valid_payment_type('cash'));
         $this->assertTrue($this->order->is_valid_payment_type('credit'));
         $this->assertTrue($this->order->is_valid_payment_type('debit'));
         $this->assertFalse($this->order->is_valid_payment_type('invalid_payment_type'));
     }
-
+    /**
+     * @covers Order::add_order
+     * @covers Order::get_all_orders
+     */
     public function testAddAndGetAllOrders() {
         $this->order->add_order('leaded', 5.5, 'John', 'Doe', 'john@example.com', '+1234567890', 'cash');
         $orders = $this->order->get_all_orders();
@@ -65,7 +82,9 @@ class OrderTest extends TestCase {
         $this->assertEquals('leaded', $orders[0]['fuel_type']);
         $this->assertEquals(5.5, $orders[0]['gallons']);
     }
-
+     /**
+     * @covers Order::get_order_history
+     */
     public function testGetOrderHistory() {
         $this->order->add_order('leaded', 
         Finish this code off, start from the last completed line

@@ -82,3 +82,4 @@ class OrderTest extends TestCase {
         $this->assertEquals('unleaded', $janeOrders[0]['fuel_type']);
         $this->assertEquals(10, $janeOrders[0]['gallons']);
 }
+?>

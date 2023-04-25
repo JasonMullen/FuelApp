@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>My Website</title>
+    <meta name="description" content="This is my website.">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <h1>Location Tracker</h1>
+    <p id="location"></p>
+
+    <script>
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+          document.getElementById("location").innerHTML = "Geolocation is not supported by this browser.";
+        }
+      }
+
+      function showPosition(position) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+
+        // calculate the distance between the user's location and Houston
+        var houstonLat = 29.7604;
+        var houstonLon = -95.3698;
+        var distance = calculateDistance(latitude, longitude, houstonLat, houstonLon);
+
+        document.getElementById("location").innerHTML = "Your location is: " + latitude + ", " + longitude + "<br>" +
+                                                         "The distance from your location to Houston is: " + Math.round(distance) + " miles";
+      }
+
+      function showError(error) {
+        switch(error.code) {
+          case error.PERMISSION_DENIED:
+            document.getElementById("location").innerHTML = "User denied the request for Geolocation.";
+            break;
+          case error.POSITION_UNAVAILABLE:
+            document.getElementById("location").innerHTML = "Location information is unavailable.";
+            break;
+          case error.TIMEOUT:
+            document.getElementById("location").innerHTML = "The request to get user location timed out.";
+            break;
+          case error.UNKNOWN_ERROR:
+            document.getElementById("location").innerHTML = "An unknown error occurred.";
+            break;
+        }
+      }
+
+      function calculateDistance(lat1, lon1, lat2, lon2) {
+        // convert degrees to radians
+        var radLat1 = deg2rad(lat1);
+        var radLon1 = deg2rad(lon1);
+        var radLat2 = deg2rad(lat2);
+        var radLon2 = deg2rad(lon2);
+
+        // calculate the difference between the two latitudes and longitudes
+        var deltaLat = radLat2 - radLat1;
+        var deltaLon = radLon2 - radLon1;
+
+        // apply the Haversine formula to get the distance between the two points
+        var a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+                Math.cos(radLat1) * Math.cos(radLat2) *
+                Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        var distance = 3958.8 * c; // Earth's radius in miles
+
+        return distance;
+      }
+
+      function deg2rad(deg) {
+        return deg * (Math.PI/180);
+      }
+
+      getLocation();
+    </script>
+  </body>
+</html>
